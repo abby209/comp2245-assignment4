@@ -1,3 +1,4 @@
+<<<<<<< HEAD
  h1 {
   font-size: 36px;
   font-family: Georgia, 'Times New Roman', Times, serif;
@@ -64,3 +65,9 @@ hr {
   padding: 20px;
   /* Add any specific styles you need for the results section */
 }
+=======
+h1{
+    font-size: 36px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+>>>>>>> 535defaf4ae9469cf2fae962de40a8af00d49eb1
