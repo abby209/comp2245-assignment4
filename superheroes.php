@@ -63,10 +63,20 @@ $superheroes = [
   ], 
 ];
 
-?>
+// Fetch the query parameter
+$query = $_GET['query'] ?? '';
 
-<ul>
-<?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
-<?php endforeach; ?>
-</ul>
+// Sanitize the input to prevent code injection
+$sanitizedQuery = filter_var($query, FILTER_SANITIZE_STRING);
+
+// Perform the search based on the query
+if (!empty($sanitizedQuery)) {
+    $foundSuperheroes = array_filter($superheroes, function ($superhero) use ($sanitizedQuery) {
+        return stripos($superhero['name'], $sanitizedQuery) !== false || stripos($superhero['alias'], $sanitizedQuery) !== false;
+    });
+
+    echo json_encode(array_values($foundSuperheroes)); // Return the filtered results as JSON
+} else {
+    echo json_encode($superheroes); // Return all superheroes if no query is provided
+}
+?>
