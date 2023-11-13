@@ -35,7 +35,7 @@ $(document).ready(function() {
 
   function showAliases(superheroes, resultDiv) {
     superheroes.forEach(function(superhero) {
-      resultDiv.append(`<p>${superhero.alias}- ${superhero.name}</p>`);
+      resultDiv.append(`<p>${superhero.alias}</p>`);
     });
   }
 
