@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $('#searchButton').on('click', function() {
-    var userInput = $('#searchInput').val().trim();
+    var userInput = $('#searchInput').val().trim().toLowerCase();
     var resultDiv = $('#result');
 
     var sanitizedInput = encodeURIComponent(userInput);
@@ -13,13 +13,9 @@ $(document).ready(function() {
         resultDiv.empty();
 
         if (userInput !== '') {
-          if (data.length > 0) {
-            var foundSuperhero = findSuperhero(data, userInput);
-            if (foundSuperhero) {
-              displaySuperhero(foundSuperhero, resultDiv);
-            } else {
-              resultDiv.html('Superhero not found');
-            }
+          var foundSuperheroes = searchSuperheroes(data, userInput);
+          if (foundSuperheroes.length > 0) {
+            displaySuperheroes(foundSuperheroes, resultDiv);
           } else {
             resultDiv.html('Superhero not found');
           }
@@ -39,20 +35,23 @@ $(document).ready(function() {
     });
   }
 
-  function findSuperhero(superheroes, query) {
-    return superheroes.find(function(superhero) {
-      return (
-        superhero.alias.toLowerCase() === query.toLowerCase() ||
-        superhero.name.toLowerCase() === query.toLowerCase()
-      );
+  function searchSuperheroes(superheroes, query) {
+    var found = [];
+    superheroes.forEach(function(superhero) {
+      if (superhero.alias.toLowerCase().includes(query) || superhero.name.toLowerCase().includes(query)) {
+        found.push(superhero);
+      }
     });
+    return found;
   }
 
-  function displaySuperhero(superhero, resultDiv) {
-    resultDiv.html(`
-      <h3>${superhero.alias}</h3>
-      <h4>${superhero.name}</h4>
-      <p>${superhero.biography}</p>
-    `);
+  function displaySuperheroes(superheroes, resultDiv) {
+    superheroes.forEach(function(superhero) {
+      resultDiv.append(`
+        <h3>${superhero.alias}</h3>
+        <h4>${superhero.name}</h4>
+        <p>${superhero.biography}</p>
+      `);
+    });
   }
 });
